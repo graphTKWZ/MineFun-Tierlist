@@ -344,21 +344,43 @@ async function movePlayer(id, direction){
 }
 function openForm(id=null){
   edit=id;
-  const p=id?data.find(x=>x.id===id):{name:"",device:"PC",tier:"S",donate:"",video:"",social:"",about:""};
-  document.getElementById("modalTitle").textContent=id?"Редактирование игрока":"Добавление игрока";
-  fn.value=p.name;fd.value=p.device;ft.value=p.tier;fdon.value=p.donate||"";fvid.value=p.video||"";fsoc.value=p.social||"";fab.value=p.about||"";
+
+  const p=id
+    ? data.find(x=>x.id===id)
+    : {
+        name:"",
+        avatar:"",
+        device:"PC",
+        tier:"S",
+        donate:"",
+        video:"",
+        social:"",
+        about:""
+      };
+
+  document.getElementById("modalTitle").textContent =
+    id ? "Редактирование игрока" : "Добавление игрока";
+
+  fn.value=p.name;
+  favatar.value=p.avatar||"";
+  fd.value=p.device;
+  ft.value=p.tier;
+  fdon.value=p.donate||"";
+  fvid.value=p.video||"";
+  fsoc.value=p.social||"";
+  fab.value=p.about||"";
+
   document.getElementById("modal").classList.remove("hidden");
-}
-function closeForm(){document.getElementById("modal").classList.add("hidden");}
+}function closeForm(){document.getElementById("modal").classList.add("hidden");}
 async function savePlayer(){
   if(!(await isAdmin())){
     return alert("Нет доступа администратора");
   }
 
   const p = {
-    name: fn.value.trim(),
-    device: fd.value,
-    tier: ft.value,
+  name: fn.value.trim(),
+  avatar: favatar.value.trim(),
+  device: fd.value,
     donate: fdon.value.trim(),
     video: fvid.value.trim(),
     social: fsoc.value.trim(),
@@ -372,6 +394,7 @@ async function savePlayer(){
   const { data, error } = await sb.rpc("save_player_with_order", {
     p_id: edit || null,
     p_name: p.name,
+    p_avatar: p.avatar,
     p_device: p.device,
     p_tier: p.tier,
     p_donate: p.donate,
