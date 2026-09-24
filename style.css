@@ -41,3 +41,63 @@
   color: #b9c0cc;
   border-bottom: 1px solid #414754;
 }
+/* ===== Плавность интерфейса ===== */
+
+.player {
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.player:hover {
+  transform: translateY(-3px);
+  border-color: #71809a;
+  background: #1b222e;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+}
+
+.player .avatar {
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
+}
+
+.player:hover .avatar {
+  transform: scale(1.08);
+  background: #303a4b;
+}
+
+/* Плавные кнопки и вкладки */
+
+button,
+select,
+input,
+textarea,
+a {
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+/* Плавное появление карточек */
+
+.tier {
+  animation: tierAppear 0.3s ease both;
+}
+
+@keyframes tierAppear {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
