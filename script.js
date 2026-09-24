@@ -21,6 +21,10 @@ const rules = [
 document.getElementById("rulesText").innerHTML = rules.map(x=>`<p>${esc(x)}</p>`).join("");
 
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+function safeImageUrl(url){
+  const u = String(url || "").trim();
+  return /^https?:\/\//i.test(u) ? u : "";
+}
 function page(id){
   document.querySelectorAll(".pg").forEach(x=>x.classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
@@ -67,17 +71,27 @@ function render(){
           ${icons[t]} ${t} TIER
           <small>${a.length}</small>
         </div>
+
         <div class="players">
           ${
             a.length
-              ? a.map(p=>`
-                  <div class="player" onclick="profile('${p.id}')">
-                    <i class="avatar">
-                      ${esc(p.name.slice(0,2).toUpperCase())}
-                    </i>
-                    <span>${esc(p.name)}</span>
-                  </div>
-                `).join("")
+              ? a.map(p=>{
+                  const avatar = safeImageUrl(p.avatar);
+
+                  return `
+                    <div class="player" onclick="profile('${p.id}')">
+                      <i class="avatar">
+                        ${
+                          avatar
+                            ? `<img src="${esc(avatar)}" alt="" loading="lazy">`
+                            : esc(p.name.slice(0,2).toUpperCase())
+                        }
+                      </i>
+
+                      <span>${esc(p.name)}</span>
+                    </div>
+                  `;
+                }).join("")
               : "<p>Игроки не найдены</p>"
           }
         </div>
@@ -98,6 +112,7 @@ function render(){
   `;
 
   document.getElementById("tiers").innerHTML=out;
+}
 }function profile(id){
   const p=data.find(x=>x.id===id);
   if(!p)return;
