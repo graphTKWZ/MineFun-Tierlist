@@ -53,16 +53,52 @@ function setStatus(text,error){
 function render(){
   const q=document.getElementById("search").value.trim().toLowerCase();
   let out="";
+
   for(const t of ["S","A","B","C"]){
-    const a=data.filter(p=>p.device===dev&&p.tier===t&&p.name.toLowerCase().includes(q));
-    out+=`<section class="tier"><div class="th">${icons[t]} ${t} TIER <small>${a.length}</small></div><div class="players">`;
-    out+=a.length?a.map(p=>`<div class="player" onclick="profile('${p.id}')"><i class="avatar">${esc(p.name.slice(0,2).toUpperCase())}</i><span>${esc(p.name)}</span></div>`).join(""):"<p>Игроки не найдены</p>";
-    out+="</div></section>";
+    const a=data.filter(
+      p=>p.device===dev &&
+         p.tier===t &&
+         p.name.toLowerCase().includes(q)
+    );
+
+    out+=`
+      <section class="tier" data-tier="${t}">
+        <div class="th">
+          ${icons[t]} ${t} TIER
+          <small>${a.length}</small>
+        </div>
+        <div class="players">
+          ${
+            a.length
+              ? a.map(p=>`
+                  <div class="player" onclick="profile('${p.id}')">
+                    <i class="avatar">
+                      ${esc(p.name.slice(0,2).toUpperCase())}
+                    </i>
+                    <span>${esc(p.name)}</span>
+                  </div>
+                `).join("")
+              : "<p>Игроки не найдены</p>"
+          }
+        </div>
+      </section>
+    `;
   }
-  out+=`<section class="tier"><div class="th">🛡️ D TIER</div><div class="players"><p>Все остальные игроки</p></div></section>`;
+
+  out+=`
+    <section class="tier" data-tier="D">
+      <div class="th">
+        🛡️ D TIER
+        <small>—</small>
+      </div>
+      <div class="players">
+        <p>Все остальные игроки</p>
+      </div>
+    </section>
+  `;
+
   document.getElementById("tiers").innerHTML=out;
-}
-function profile(id){
+}function profile(id){
   const p=data.find(x=>x.id===id);
   if(!p)return;
   page("profile");

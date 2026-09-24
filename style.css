@@ -10,3 +10,34 @@
   outline: 2px dashed currentColor;
   outline-offset: -2px;
 }
+/* ===== Контрастность тиров ===== */
+
+.tier[data-tier="S"] .th {
+  background: linear-gradient(90deg, #5b1f1f, #3a1717);
+  color: #ffb3b3;
+  border-bottom: 1px solid #8f3f3f;
+}
+
+.tier[data-tier="A"] .th {
+  background: linear-gradient(90deg, #5a4218, #392c13);
+  color: #ffd98a;
+  border-bottom: 1px solid #806226;
+}
+
+.tier[data-tier="B"] .th {
+  background: linear-gradient(90deg, #183d5a, #142c40);
+  color: #9ed3ff;
+  border-bottom: 1px solid #2e648c;
+}
+
+.tier[data-tier="C"] .th {
+  background: linear-gradient(90deg, #25352a, #1a271e);
+  color: #a9d9b1;
+  border-bottom: 1px solid #3d6547;
+}
+
+.tier[data-tier="D"] .th {
+  background: linear-gradient(90deg, #292d35, #1d2026);
+  color: #b9c0cc;
+  border-bottom: 1px solid #414754;
+}
